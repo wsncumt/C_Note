@@ -1,0 +1,260 @@
+10月18日笔记
+
+对于一个数组：
+int arr
+*(arr+1)=arr[1]
+
+10月19日笔记
+strlen()
+求字符串长度。
+
+代码：
+版本1：
+size_t my_strlen(const char* str)
+{
+	assert(str != NULL);
+	int count = 0;
+	while(*str++ != '\0')
+	{
+		count++;
+	}
+	return count;
+}
+版本2：递归
+size_t my_strlen(const char* str)
+{
+	assert(str != NULL);
+	if (*str != 0)
+	{
+		return 1+my_strlen(str+1)
+	}
+	else
+	{
+		return 0;
+	}
+}
+
+版本3：
+size_t my_strlen(const char* str)
+{
+	assert(str != NULL);
+	const char *start = str;
+	while(*str++)
+	{
+		;
+	}
+	return str-start;
+}
+
+字符串拷贝：
+strcpy
+
+实现：
+版本1：
+char* my_strcpy(char* dest,const char* src)
+{
+	char* ret = dest;
+	assert(dest != NULL);
+	assert(src != NULL);
+	while(*dest++ = *src++)
+	{
+		;
+	}
+	return ret;
+}
+
+字符串追加（连接）
+strcat(目标字符串，追加字符串)
+1.目的地空间可修改；
+2.目标和源需要有'\0'；
+3.目标空间必须足够大。
+
+
+代码实现：
+char* my_strcat(char* dest, const char* src)
+{
+	char* ret = dest;
+	assert(dest != NULL);
+	assert(src != NULL);
+	while(*dest)
+	{
+		dest++;
+	}
+	while(*dest++ = *src++);
+	return dest;
+}
+
+封装库：
+1.项目属性-配置属性-常规-常规属性-配置类型-静态库
+2.把对应的头文件和静态库放在一起。
+3.在主程序中引用相应头文件
+4.导入静态库：#pragma comment(lib,"静态库名称")
+
+字符串比较：
+strcmp(字符串1,字符串2)
+字符串1大于字符串2，返回一个正数；
+字符串1等于字符串2，返回0；
+字符串1小于字符串2，返回一个负数；
+代码实现：
+int my_strcmp(const* str1, const char* str2)
+{
+	assert(str1 != NULL);
+	assert(str2 != NULL);
+	while(*str1 == *str2)
+	{
+		if (*str1 == '\0')
+		{
+			return 0;
+		}
+		*str1++;
+		*str2++;
+	}
+	return *str1 - *str2;
+}
+
+
+找库函数：
+找到vs2019的安装路径：VC-crt-src-后缀为.c文件
+
+函数调用约定：（自己百度）
+
+
+长度受限制的字符串操作函数：（比之前的函数多一个参数n）
+1.strncpy();
+2.strncat();
+3.strncmp();
+
+判断一个字符串是不是另一个字符串的左旋：
+int main(void)
+{
+	char arr1[30] = "abcdef";
+	char arr2[] = "caefab";
+	int len = strlen(arr1);
+	if (strlen(arr1) != strlen(arr2))
+	{
+		printf("NO\n");
+	}
+	else
+	{
+		strncat(arr1, arr1, len);
+		char* ret = strstr(arr1, arr2);
+		if (ret == NULL)
+		{
+			printf("NO\n");
+		}
+		else
+		{
+			printf("YES\n");
+		}
+	}
+	return 0;
+}
+
+KMP算法
+
+
+分割字符串：
+strtok(待分割字符串，分隔符字符串)
+
+判断一个字符串是不是另一个字符串的子字符串：
+strstr()
+
+代码实现：
+char* my_strstr(char* str1, char* str2)
+{
+	char* cp = str1;
+	char* s1 = str1;
+	char* s2 = str2;
+	if (*s2 == '\0')
+	{
+		return (char*)str1;
+	}
+	while (cp*)
+	{
+		s1 = cp;
+		s2 = str2;
+		while (*s1 && *s2 && *s1 == *s2)
+		{
+			s1++;
+			s2++;
+		}
+		if (*s2 == '\0')
+		{
+			return (char*)cp;
+		}
+		cp++;
+	}
+	return NULL;
+}
+
+
+char* strerror(int errnum)
+
+perror("相应信息")
+
+
+字符分类函数：
+课件
+
+内存相关的函数：
+1.memcpy();//内存拷贝
+void* memcpy(void* des, const void *src, size_t num)//第三个为要拷贝的字节数
+
+代码实现：
+第一版：
+void* my_memcpy(void* dest, const void* src, size_t count)
+{
+	assert(dest);
+	assert(src);
+	
+	void* ret = dest;
+	
+	while(count--)
+	{
+		*(char*)dest = *(char*)src;
+		dest = (char*)dest + 1;
+		src = (char*)src + 1;
+	}
+	
+	return ret;
+}
+
+第二版：
+
+
+2.memove(void* dest, void* src, size_t count)//内存移动
+
+代码实现：
+void* my_memove(void* dest, void* src, size_t count)
+{
+	assert(dest);
+	assert(src);
+	
+	void* ret = dest;
+	
+	if (dest < src)  //从前向后拷贝
+	{
+		while(count--)
+		{
+			*(char*)dest = *(char*)src;
+			dest = (char*)dest + 1;
+			src = (char*)src + 1;
+		}
+	}
+	else//从后向前拷贝
+	{
+		while(count--)
+		{
+			*((char*)dest+count) = *((char*)src+count)
+		}
+	}
+	
+	return ret;
+}
+
+3.memcmp()
+
+int memcmp(void* buff1, void* buff2, size_t count)
+
+4.memset()
+void* memset(void* dest, int c,size_t count)//第三个数为字节数。
